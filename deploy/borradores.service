@@ -1,0 +1,44 @@
+# Servicio systemd: mantiene el panel arrancado y lo reinicia si se cae.
+#
+#   sudo cp deploy/borradores.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now borradores
+#
+# Ver los logs:      journalctl -u borradores -f
+# Reiniciar:         sudo systemctl restart borradores
+
+[Unit]
+Description=Borradores de WhatsApp
+Documentation=https://github.com/LordPanZ/Automatizar-WhatsApp-
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=borradores
+Group=borradores
+WorkingDirectory=/opt/borradores
+# env en vez de ruta fija: node puede estar en /usr/bin o en /usr/local/bin
+# según cómo se haya instalado.
+ExecStart=/usr/bin/env node src/index.js
+
+# WhatsApp se cae de vez en cuando; que vuelva solo.
+Restart=always
+RestartSec=5
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=borradores
+
+# Endurecimiento: el proceso solo puede escribir donde de verdad necesita.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+ReadWritePaths=/opt/borradores/data /opt/borradores/auth /opt/borradores/config
+
+[Install]
+WantedBy=multi-user.target
