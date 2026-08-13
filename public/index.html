@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b1120" />
+    <title>Borradores de WhatsApp</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>"
+    />
+  </head>
+  <body>
+    <!-- Pantalla de acceso -->
+    <section id="login" class="login" hidden>
+      <div class="login-card">
+        <h1>Borradores de WhatsApp</h1>
+        <p class="muted">Introduce el token del panel (el <code>PANEL_TOKEN</code> de tu <code>.env</code>).</p>
+        <form id="login-form">
+          <input
+            id="token-input"
+            type="password"
+            inputmode="text"
+            autocomplete="current-password"
+            placeholder="Token"
+            required
+          />
+          <button type="submit" class="btn primary">Entrar</button>
+        </form>
+        <p id="login-error" class="error" hidden></p>
+      </div>
+    </section>
+
+    <!-- Aplicación -->
+    <div id="app" hidden>
+      <header class="topbar">
+        <div class="topbar-row">
+          <h1>Borradores</h1>
+          <span id="status-pill" class="pill">…</span>
+        </div>
+        <nav class="tabs" role="tablist">
+          <button class="tab active" data-view="pending">
+            Pendientes <span id="pending-count" class="count">0</span>
+          </button>
+          <button class="tab" data-view="history">Historial</button>
+          <button class="tab" data-view="settings">Ajustes</button>
+        </nav>
+      </header>
+
+      <main>
+        <!-- Aviso de vinculación -->
+        <section id="link-panel" class="card notice" hidden>
+          <h2>Vincula tu WhatsApp</h2>
+          <div id="pairing-code-box" hidden>
+            <p class="muted">
+              En el teléfono: WhatsApp › Ajustes › Dispositivos vinculados › Vincular con número de teléfono.
+            </p>
+            <p id="pairing-code" class="pairing-code"></p>
+          </div>
+          <div id="qr-box" hidden>
+            <p class="muted">Escanea este QR desde WhatsApp › Dispositivos vinculados.</p>
+            <img id="qr-image" alt="Código QR de vinculación" />
+          </div>
+        </section>
+
+        <!-- Pendientes -->
+        <section id="view-pending" class="view">
+          <div id="drafts"></div>
+          <p id="empty-pending" class="empty" hidden>
+            Nada pendiente. Los mensajes de trabajo aparecerán aquí como borrador.
+          </p>
+        </section>
+
+        <!-- Historial -->
+        <section id="view-history" class="view" hidden>
+          <h2 class="section-title">Últimos borradores</h2>
+          <div id="history"></div>
+          <h2 class="section-title">Decisiones del clasificador</h2>
+          <div id="log"></div>
+        </section>
+
+        <!-- Ajustes -->
+        <section id="view-settings" class="view" hidden>
+          <form id="rules-form" class="card">
+            <label>
+              Contactos siempre de trabajo
+              <span class="hint">Un número o nombre por línea.</span>
+              <textarea id="workContacts" rows="4" spellcheck="false"></textarea>
+            </label>
+            <label>
+              Grupos siempre de trabajo
+              <span class="hint">Un nombre de grupo por línea.</span>
+              <textarea id="workGroups" rows="4" spellcheck="false"></textarea>
+            </label>
+            <label>
+              Contactos ignorados
+              <span class="hint">Nunca se generan borradores para ellos.</span>
+              <textarea id="ignoreContacts" rows="4" spellcheck="false"></textarea>
+            </label>
+            <label>
+              Grupos ignorados
+              <textarea id="ignoreGroups" rows="4" spellcheck="false"></textarea>
+            </label>
+            <label>
+              Grupos no listados
+              <select id="groupsDefault">
+                <option value="ignore">Ignorar (recomendado)</option>
+                <option value="classify">Que decida la IA</option>
+              </select>
+            </label>
+            <label>
+              A qué te dedicas
+              <span class="hint">Ayuda a la IA a distinguir trabajo de vida personal.</span>
+              <textarea id="contextNote" rows="3"></textarea>
+            </label>
+            <label>
+              Tono de los borradores
+              <textarea id="toneNote" rows="2"></textarea>
+            </label>
+            <button type="submit" class="btn primary">Guardar ajustes</button>
+            <p id="rules-saved" class="saved" hidden>Guardado.</p>
+          </form>
+
+          <h2 class="section-title">Chats recientes</h2>
+          <p class="hint">Marca un chat para saltarte la clasificación de la IA en él.</p>
+          <div id="chats"></div>
+
+          <button id="logout" class="btn ghost">Salir del panel</button>
+        </section>
+      </main>
+
+      <div id="toast" class="toast" hidden></div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
