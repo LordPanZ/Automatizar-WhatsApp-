@@ -75,14 +75,38 @@ Desde el móvil (misma WiFi): http://192.168.1.42:3000
 ```
 
 Abre esa segunda dirección en el navegador del móvil, mientras el ordenador y el
-teléfono estén en la misma red WiFi. Te pedirá el `PANEL_TOKEN` una sola vez.
+teléfono estén en la misma red WiFi. Te pedirá el `PANEL_TOKEN` una sola vez y
+queda guardado en el navegador.
 
-Añádelo a la pantalla de inicio ("Añadir a inicio" en Safari o Chrome) y se
-comporta prácticamente como una app.
+### Acceso directo en el móvil
+
+El panel es una PWA: se instala en la pantalla de inicio con su propio icono.
+
+**iPhone (Safari):** Compartir › Añadir a pantalla de inicio. Se abre a pantalla
+completa, sin barra del navegador, igual que una app.
+
+**Android (Chrome):** menú ⋮ › Añadir a pantalla de inicio. Ojo: sirviendo por
+`http://` Chrome crea el acceso directo pero lo abre dentro del navegador; para
+que se abra a pantalla completa necesita HTTPS (ver más abajo).
+
+El propio panel te enseña un aviso con estas instrucciones la primera vez, con un
+botón de instalar directo cuando el navegador lo permite.
+
+### HTTPS (opcional, y necesario para Android a pantalla completa)
+
+La forma menos dolorosa es [Tailscale](https://tailscale.com/): instala Tailscale
+en el ordenador y en el móvil y ejecuta
+
+```bash
+tailscale serve --bg 3000
+```
+
+Te da una URL `https://…ts.net` con certificado válido, que además funciona fuera
+de casa sin abrir puertos en el router.
 
 > El panel escucha en toda la red local. El token es lo único que impide que otro
 > dispositivo de tu WiFi envíe mensajes en tu nombre: usa uno largo. No lo
-> expongas a Internet sin poner HTTPS y un proxy delante.
+> expongas directamente a Internet abriendo puertos en el router.
 
 ## Cómo decide qué es trabajo
 
@@ -167,6 +191,9 @@ src/
   server.js      API HTTP del panel
   config.js      .env y config/rules.json
 public/          panel web (HTML/CSS/JS sin dependencias)
+  manifest.webmanifest, sw.js, pwa.js, icons/   soporte de app instalable
+scripts/
+  generate-icons.mjs   regenera los iconos PNG (ya están commiteados)
 ```
 
 ## Problemas frecuentes

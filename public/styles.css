@@ -383,6 +383,40 @@ label {
   flex: 0 0 auto;
 }
 
+.install-banner {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: calc(12px + env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  background: var(--surface);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+  padding: 12px 14px;
+  z-index: 40;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.install-text {
+  display: grid;
+  gap: 2px;
+  min-width: 180px;
+  flex: 1 1 auto;
+  font-size: 0.9rem;
+}
+
+.install-actions {
+  display: flex;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
 .toast {
   position: fixed;
   left: 50%;
