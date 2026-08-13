@@ -1,0 +1,21 @@
+{
+  "workContacts": [
+    "34600111222",
+    "Ana Contabilidad"
+  ],
+  "workGroups": [
+    "Obra Calle Mayor",
+    "Equipo comercial"
+  ],
+  "ignoreContacts": [
+    "34600999888",
+    "Mamá"
+  ],
+  "ignoreGroups": [
+    "Familia",
+    "Pádel jueves"
+  ],
+  "groupsDefault": "ignore",
+  "contextNote": "Trabajo en una empresa de reformas. Presupuestos, plazos de obra, materiales, facturas y visitas a clientes son temas de trabajo. Quedadas, deporte, familia y planes de fin de semana no lo son.",
+  "toneNote": "Tono profesional pero cercano, directo, sin florituras. Frases cortas."
+}
